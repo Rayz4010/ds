@@ -1,0 +1,88 @@
+        PROGRAM 1
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char *name;
+    int date;
+    char *description;
+}week;
+
+void create (week *day,int size){
+    for (int i=0;i<size;i++){
+        day[i].name = (char *)malloc(sizeof(char));
+        day[i].description = (char *)malloc(sizeof(char));
+    }
+}
+
+void read(week *day, int size){
+    for (int i=0;i<size;i++){
+        printf("Enter the name of the day");
+        scanf("%s",day[i].name);
+        printf("Enter the date");
+        scanf("%d",&day[i].date);
+        printf("Enter the description");
+        scanf("%s",day[i].description);
+    }
+}
+
+void display(week *day, int size){
+    printf("The schedule are as follow");
+    for (int i=0;i<size;i++){
+        printf("Day:%s\t\tDate:%d\t\tDescription:%s",day[i].name,day[i].date,day[i].description);
+    }
+}
+
+int main(){
+    week *day=(week *)malloc(7 * sizeof(week));
+    int size=7;
+    create(day,size);
+    read(day,size);
+    display(day,size);
+    for (int i = 0; i < size; i++)
+    {
+        free(day[i].name);
+        free(day[i].description);
+    }
+    free(day);
+    return 0;
+}
+
+        PROGRAM 2
+#include <stdio.h>
+#include <string.h>
+
+void replacePattern(char *str,const char *pat, const char *rep){
+    char temp[1024];
+    char *pos = strstr(str, pat); // Find the pattern in the string
+    if (!pos) {
+        printf("Pattern not found.\n");
+        return;
+    }
+    strncpy(temp,str,pos-str);
+    temp[pos-str]='\0';
+    strcat(temp,rep);
+    strcat(temp, pos+strlen(pat));
+    strcpy(str,temp);
+}
+
+int main(){
+    char str[1024], pat[100], rep[100];
+    printf("Enter the string you want to enter");
+    fgets(str,sizeof(str),stdin);
+    str[strcspn(str,"\n")]='\0';
+
+    printf("Eneter the string pattern");
+    fgets(pat,sizeof(pat),stdin);
+    pat[strcspn(pat,"\n")]='\0';
+
+    printf("Eneter the string you want to replace");
+    fgets(rep,sizeof(rep),stdin);
+    rep[strcspn(rep,"\n")]='\0';
+
+    replacePattern(str,pat,rep);
+    printf("The new string is %s",str);
+    return 0;
+}
+        PROGRAM 3
