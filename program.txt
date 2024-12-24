@@ -159,3 +159,68 @@ int main(){
     
 }
         PROGRAM 4
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 100
+
+int precedence(char c){
+    switch(c){
+        case '+':
+        case'-':
+            return 1;
+        case '*':
+        case'%':
+        case'/':
+            return 2;
+        case '^':
+            return 3;
+    }
+    return -1;
+}
+
+void infixtopostfix(char *infix, char *postfix){
+    int i,j,top=-1;
+    char stack[MAX];
+    for(i=0,j=0;infix[i];i++){
+        if (isalnum(infix[i])){
+            postfix[j++]=infix[i];
+        }
+        else if(infix[i]=='('){
+            stack[++top]=infix[i];
+        }
+        else if(infix[i]==')'){
+            while (top==-1 && infix[i]==')'){
+                postfix[j++]=stack[top--];
+            if(top!=-1)
+                top--;
+            }
+        }
+        else{
+            while(top==-1&&precedence(infix[i])<=precedence(stack[top])){
+                postfix[j++]=stack[top--];
+            }
+            stack[++top]=infix[i];
+        }
+    }
+    while  (top!=-1){
+        postfix[j++]=stack[top--];
+    }
+    postfix[j]='\0';
+}
+
+
+int main(){
+    char postfix[MAX],infix[MAX];
+    printf("Enter the postfix expression\n");
+    gets(infix);
+
+    infixtopostfix(infix,postfix);
+    printf("The postfix expression is %s",postfix);
+
+    return 0;
+}
+        PROGRAM 5
+#include <stdio.h>
